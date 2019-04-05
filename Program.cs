@@ -11,7 +11,8 @@ namespace FileDetails
         public static void Main(string[] args)
         {
             var input = Console.ReadLine();
-            InputConverter.GetResult(input);  
+            string output=InputConverter.GetResult(input);
+            Console.WriteLine(output);
             Console.ReadLine();
         }
 
@@ -20,36 +21,40 @@ namespace FileDetails
             public static string GetResult(string input)
             {
                 string result = "Please give valid input.";
-                string[] arr = input.Split(' ');
-
-                if (arr.Length > 1) //check if inputs are supplied
+                try
                 {
-                    string versionOrSize = arr[0]; //first element of array
-                    string fileName = arr[1];  //second element of array - filename
+                    string[] arr = input.Split(' ');
 
-                    if (versionOrSize != "" && fileName != "") //check if array elements are not empty
+                    if (arr.Length > 1) //check if inputs are supplied
                     {
-                        if (versionOrSize == "-v" || versionOrSize == "--v" || versionOrSize == "/v" || versionOrSize == "--version") //if version 
-                        {
-                            result = "1";
-                            //result = FileDetails.Version(fileName); // get the version number
-                        }
+                        string versionOrSize = arr[0]; //first element of array
+                        string fileName = arr[1];  //second element of array - filename
 
-                        if (versionOrSize == "-s" || versionOrSize == "--s" || versionOrSize == "/s" || versionOrSize == "--size") //if size
+                        if (versionOrSize != "" && fileName != "") //check if array elements are not empty
                         {
-                            result = "2";
-                            //result = FileDetails.Size(fileName).ToString(); // get size of file
+                            if (versionOrSize == "-v" || versionOrSize == "--v" || versionOrSize == "/v" || versionOrSize == "--version") //if version 
+                            {                                
+                                result = FileDetails.Version(fileName); // get the version number
+                            }
+
+                            if (versionOrSize == "-s" || versionOrSize == "--s" || versionOrSize == "/s" || versionOrSize == "--size") //if size
+                            {                                
+                                result = FileDetails.Size(fileName).ToString(); // get size of file
+                            }                                  
                         }
-                        Console.WriteLine(result);  // print result      
+                        else
+                        {
+                            result="Please give valid input.";
+                        }
                     }
                     else
                     {
-                        Console.WriteLine("Please give valid input.");
+                        result="Please give valid input.";
                     }
                 }
-                else
+                catch(Exception e)
                 {
-                    Console.WriteLine("Please give valid input.");
+                    result= e.ToString();
                 }
 
                 return result;
